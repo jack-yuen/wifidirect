@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">wifidirect</string>
+    <string name="selectfile">选择文件</string>
+    <string name="findpeers">查找设备</string>
+    <string name="title_activity_handler">HandlerActivity</string>
+    <string name="label_me">我的设备</string>
+    <string name="enable_p2p_button">P2P On/Off</string>
+    <string name="discover_peers_button">Discover</string>
+    <string name="connect_peer_button">连接</string>
+    <string name="disconnect_peer_button">断开</string>
+    <string name="get_file_button">Launch Gallery</string>
+    <string name="empty"></string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="client_text">This device will act as a client. Click on Gallery button to pick a local(stored) file</string>
+    <string name="empty_message">未发现任何设备，打开WIFI后点击查找</string>
+    <string name="grp_empty_message">组内暂无成员</string>
+    <string name="label_grp_peers">组内成员</string>
+    <string name="p2p_off_warning">请打开WIFI</string>
+    <string name="group_owner_text">"是否为组长? "</string>
+    <string name="label_peers">附近设备</string>
+</resources>

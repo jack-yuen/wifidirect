@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="bigleg.com.wifidirect.WiFiDirectActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/linearLayout1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/frag_list"
+            class="bigleg.com.wifidirect.DeviceListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="232dp"></fragment>
+
+
+        <fragment
+            android:id="@+id/grp_list"
+            class="bigleg.com.wifidirect.GroupDeviceListFragment"
+            android:divider="@null"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:layout_marginBottom="0dp">
+        </fragment>
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:padding="3dip">
+            <TableRow>
+                <Button
+                    android:id="@+id/btn_findpeers"
+                    android:text="@string/findpeers" />
+
+                <Button
+                    android:id="@+id/btn_openfile"
+                    android:clickable="false"
+                    android:text="@string/selectfile" />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
