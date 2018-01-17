@@ -2,9 +2,15 @@ package org.bigleg.wifidirect;
 
 import android.net.wifi.p2p.WifiP2pDevice;
 
+import org.bigleg.async.AsyncDatagramSocket;
+import org.bigleg.async.AsyncNetworkSocket;
+import org.bigleg.async.AsyncSSLSocket;
+import org.bigleg.async.AsyncSocket;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.List;
 
 /**
@@ -20,18 +26,17 @@ public class socketThread extends Thread {
     }
     @Override
     public void run(){
-        Socket socket = null;
+        AsyncDatagramSocket socket = null;
         try {
-            socket = new Socket(m_dev.deviceAddress, 6000);
-            OutputStream outputStream = socket.getOutputStream();
+            socket = new AsyncDatagramSocket();
             byte[] buffer = new byte[4];
             buffer[0] = 'x';
             buffer[1] = 'x';
             buffer[2] = 'x';
             buffer[3] = 'x';
-            outputStream.write(buffer, 0, 3);
-            outputStream.flush();
-        } catch (IOException e) {
+            ByteBuffer bb = ByteBuffer.wrap(buffer);
+            socket.send(m_dev.deviceAddress, 6000, bb);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
