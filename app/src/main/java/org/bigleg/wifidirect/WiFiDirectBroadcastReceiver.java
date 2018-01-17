@@ -11,6 +11,7 @@ import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
 import android.util.Log;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -88,19 +89,32 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                             //TODO 如果是组长，需要将此信息传递给组内的所有成员（socket)，如果是组员，只会和组长连接，因此不需考虑
                             //开辟intentService的任务放在connectionChanged任务中
                             for(int i = 0; i < groupList.size(); i++){
-                                WifiP2pDevice dev = groupList.get(i);
+                                final WifiP2pDevice dev = groupList.get(i);
                                 try {
-                                    Socket socket = new Socket(dev.deviceAddress, 6000);
-                                    OutputStream outputStream = socket.getOutputStream();
-                                    byte[] buffer = new byte[4];
-                                    buffer[0] = 'x';
-                                    buffer[1] = 'x';
-                                    buffer[2] = 'x';
-                                    buffer[3] = 'x';
-                                    outputStream.write(buffer, 0, 3);
-                                    outputStream.flush();
+                                    Runnable netTask = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Socket socket = null;
+                                            try {
+                                                socket = new Socket(dev.deviceAddress, 6000);
+                                                OutputStream outputStream = socket.getOutputStream();
+                                                byte[] buffer = new byte[4];
+                                                buffer[0] = 'x';
+                                                buffer[1] = 'x';
+                                                buffer[2] = 'x';
+                                                buffer[3] = 'x';
+                                                outputStream.write(buffer, 0, 3);
+                                                outputStream.flush();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+                                    netTask.run();
+
                                 }
                                 catch (Exception ex){
+                                    ex.printStackTrace();
                                 }
                             }
                         }
