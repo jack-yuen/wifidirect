@@ -91,26 +91,8 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                             for(int i = 0; i < groupList.size(); i++){
                                 final WifiP2pDevice dev = groupList.get(i);
                                 try {
-                                    Runnable netTask = new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Socket socket = null;
-                                            try {
-                                                socket = new Socket(dev.deviceAddress, 6000);
-                                                OutputStream outputStream = socket.getOutputStream();
-                                                byte[] buffer = new byte[4];
-                                                buffer[0] = 'x';
-                                                buffer[1] = 'x';
-                                                buffer[2] = 'x';
-                                                buffer[3] = 'x';
-                                                outputStream.write(buffer, 0, 3);
-                                                outputStream.flush();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    };
-                                    netTask.run();
+                                    socketThread t = new socketThread(dev, groupList);
+                                    t.run();
 
                                 }
                                 catch (Exception ex){
