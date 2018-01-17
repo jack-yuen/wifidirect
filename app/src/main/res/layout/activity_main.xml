@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="bigleg.com.wifidirect.WiFiDirectActivity">
+    tools:context="org.bigleg.wifidirect.WiFiDirectActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,14 +14,14 @@
 
         <fragment
             android:id="@+id/frag_list"
-            class="bigleg.com.wifidirect.DeviceListFragment"
+            class="org.bigleg.wifidirect.DeviceListFragment"
             android:layout_width="match_parent"
             android:layout_height="232dp"></fragment>
 
 
         <fragment
             android:id="@+id/grp_list"
-            class="bigleg.com.wifidirect.GroupDeviceListFragment"
+            class="org.bigleg.wifidirect.GroupDeviceListFragment"
             android:divider="@null"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
