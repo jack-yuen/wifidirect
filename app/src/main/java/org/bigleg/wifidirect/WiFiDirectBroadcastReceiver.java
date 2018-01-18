@@ -89,23 +89,6 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                             //将组长加入组内
                             groupList.add(wifiP2pGroup.getOwner());
                             mActivity.updateGroupFragmentWithDeviceList(groupList);
-                            //TODO 如果是组长，需要将此信息传递给组内的所有成员（socket)，如果是组员，只会和组长连接，因此不需考虑
-                            //开辟intentService的任务放在connectionChanged任务中
-                            for(int i = 0; i < groupList.size(); i++){
-                                final WifiP2pDevice dev = groupList.get(i);
-                                try {
-                                    //TODO 这里逻辑错误
-//                                    socketThread t = new socketThread(dev.deviceAddress, groupList);
-//                                    t.run();
-                                }
-                                catch (Exception ex){
-                                    ex.printStackTrace();
-                                }
-                            }
-                        }
-                        else{
-                            //Intent in
-
                         }
                     }
                 });
