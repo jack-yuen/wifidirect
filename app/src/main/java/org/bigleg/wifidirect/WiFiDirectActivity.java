@@ -91,10 +91,10 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
         //启动每个端的serverSocket
         Intent intent = new Intent(this, ListenService.class);
         startService(intent);
-        registerIpListen();
+        registerIpListenReceiver();
     }
 
-    private void registerIpListen(){
+    private void registerIpListenReceiver(){
         IntentFilter intentFilter = new IntentFilter(clientSocketService.RECEIVEIP_ACTION);
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         LocalBroadcastManager.getInstance(this).registerReceiver(mIpReceiver, intentFilter);
@@ -111,7 +111,6 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mReceiver);
-        unregisterReceiver(mIpReceiver);
     }
 
     @Override
@@ -212,7 +211,7 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
         public void onReceive(Context context, Intent intent) {
             try {
                 //TODO 这里记录的应该是IP信息，需要进一步处理
-                String data = intent.getStringExtra(clientSocketService.RECEIVEIP_ACTION);
+                String data = intent.getStringExtra(clientSocketService.IP_DATA);
                 //Log.i("test", data);
                 //mTextView.setText(data);
                 System.out.println(data);

@@ -43,7 +43,7 @@ public class clientSocketService extends IntentService {
 
             //InputStream inputStream = socket.getInputStream();
 
-            int data = 0;
+            int data = 33333;
             //接收到回复的地址之后，发送广播以更新地址信息
             Intent ipIntent = new Intent(RECEIVEIP_ACTION);
             ipIntent.putExtra(IP_DATA, data);
