@@ -37,6 +37,8 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
 
     static private int openfileDialogId = 0;
 
+    public static WifiP2pDevice ThisDevice;
+
     public void setIsWifiP2pEnabled(boolean isWifiP2pEnabled) {
         this.isWifiP2pEnabled = isWifiP2pEnabled;
     }
