@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import org.bigleg.async.http.socketio.SocketIOClient;
-
 import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
