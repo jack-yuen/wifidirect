@@ -72,7 +72,7 @@ public class ListenService extends IntentService {
                             bufferedWriter.write(clientSocketService.DEVICE_HEAD);
                             bufferedWriter.write(WiFiDirectActivity.ThisDevice.deviceName);
                             bufferedWriter.write(clientSocketService.DEVICE_SPLIT);
-                            bufferedWriter.write(String.valueOf(WiFiDirectActivity.ThisDevice.isGroupOwner()));
+                            bufferedWriter.write(WiFiDirectActivity.HostIsGroupOwner);
                             bufferedWriter.write("\n");
                         }
 
