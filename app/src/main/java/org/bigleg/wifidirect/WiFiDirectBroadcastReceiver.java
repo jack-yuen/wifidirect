@@ -95,7 +95,6 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                                     //TODO 这里逻辑错误
 //                                    socketThread t = new socketThread(dev.deviceAddress, groupList);
 //                                    t.run();
-
                                 }
                                 catch (Exception ex){
                                     ex.printStackTrace();
