@@ -111,11 +111,11 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             } else {
                 mActivity.resetData();
             }
-            try {
-                WifiP2pInfo p2pInfo = (WifiP2pInfo) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
-                String groupAddr = p2pInfo.groupOwnerAddress.getAddress().toString();
-                System.out.println(groupAddr);
-            }catch (Exception ex){}
+//            try {
+//                WifiP2pInfo p2pInfo = (WifiP2pInfo) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
+//                String groupAddr = p2pInfo.groupOwnerAddress.getAddress().toString();
+//                System.out.println(groupAddr);
+//            }catch (Exception ex){}
 //            WifiP2pGroup groupInfo = (WifiP2pGroup) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_GROUP);
 //            WifiP2pDevice owner = groupInfo.getOwner();
         } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {

@@ -86,7 +86,6 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
         mChannel = mManager.initialize(this, getMainLooper(), null);
 
         mIpReceiver = new IPReceiver();
-
 //        Intent startListenGrpIntent = new Intent(this, GroupClientListenService.class);
 //        startService(startListenGrpIntent);
         //启动每个端的serverSocket
@@ -105,13 +104,14 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     protected void onResume() {
         super.onResume();
         mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
-        registerReceiver(mIpReceiver, mIntentFilter);
+        registerReceiver(mReceiver, mIntentFilter);
     }
     /* unregister the broadcast receiver */
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mReceiver);
+        unregisterReceiver(mIpReceiver);
     }
 
     @Override
@@ -210,10 +210,16 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     private class IPReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-            //TODO 这里记录的应该是IP信息，需要进一步处理
-            String data = intent.getStringExtra(clientSocketService.RECEIVEIP_ACTION);
-            //Log.i("test", data);
-            //mTextView.setText(data);
+            try {
+                //TODO 这里记录的应该是IP信息，需要进一步处理
+                String data = intent.getStringExtra(clientSocketService.RECEIVEIP_ACTION);
+                //Log.i("test", data);
+                //mTextView.setText(data);
+                System.out.println(data);
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
     }
 }
