@@ -168,7 +168,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         peers.clear();
         Collection<WifiP2pDevice> peerColl = peerList.getDeviceList();
         Iterator<WifiP2pDevice> iter = peerColl.iterator();
-        List<WifiP2pDevice> connectedPeers = ((WiFiDirectActivity)getActivity()).getGroupList();
+        List<WifiP2pDevice> connectedPeers = ((WiFiDirectActivity)getActivity()).getGroupDeviceList();
         while(iter.hasNext()){
             WifiP2pDevice dev = iter.next();
             boolean conn = false;

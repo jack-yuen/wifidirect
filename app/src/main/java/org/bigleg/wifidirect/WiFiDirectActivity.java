@@ -187,13 +187,9 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
         }
     }
 
-    private List<WifiP2pDevice> groupMemList = new ArrayList<>();
-    public List<WifiP2pDevice> getGroupList(){
-        return this.groupMemList;
-    }
-    public void setGroupList(List<WifiP2pDevice> groupList) {
-        this.groupMemList.clear();
-        this.groupMemList.addAll(groupList);
+    private static List<WifiP2pDevice> groupMemList = new ArrayList<>();
+    public static List<WifiP2pDevice> getGroupDeviceList(){
+        return groupMemList;
     }
 
     /**
@@ -201,7 +197,8 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
      * @param deviceList
      */
     public void updateGroupFragmentWithDeviceList(List<WifiP2pDevice> deviceList){
-        this.setGroupList(deviceList);
+        groupMemList.clear();
+        groupMemList.addAll(deviceList);
         GroupDeviceListFragment frg = (GroupDeviceListFragment) getFragmentManager().findFragmentById(R.id.grp_list);
         frg.updatePeersWithDeviceList(deviceList);
     }

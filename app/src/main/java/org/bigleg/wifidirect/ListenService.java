@@ -57,7 +57,7 @@ public class ListenService extends IntentService {
                         bufferedWriter.write(clientSocketService.IP_HEAD + clientAddr);
                         bufferedWriter.write("\n");
 
-                        List<WifiP2pDevice> deviceList = new ArrayList<>();
+                        List<WifiP2pDevice> deviceList = WiFiDirectActivity.getGroupDeviceList();
                         for(int i = 0; i < deviceList.size(); i++){
                             WifiP2pDevice device = deviceList.get(i);
                             bufferedWriter.write(device.deviceName);
