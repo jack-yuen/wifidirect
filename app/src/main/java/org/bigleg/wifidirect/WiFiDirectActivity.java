@@ -211,10 +211,10 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
         public void onReceive(Context context, Intent intent) {
             try {
                 //TODO 这里记录的应该是IP信息，需要进一步处理
-                String data = intent.getStringExtra(clientSocketService.IP_DATA);
+                int data = intent.getIntExtra(clientSocketService.IP_DATA, 0);
                 //Log.i("test", data);
                 //mTextView.setText(data);
-                System.out.println(data);
+                System.out.println("================================================" + data);
             }
             catch (Exception ex){
                 ex.printStackTrace();
