@@ -92,7 +92,8 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                             for(int i = 0; i < groupList.size(); i++){
                                 final WifiP2pDevice dev = groupList.get(i);
                                 try {
-                                    socketThread t = new socketThread(dev, groupList);
+                                    //TODO 这里逻辑错误
+                                    socketThread t = new socketThread(dev.deviceAddress, groupList);
                                     t.run();
 
                                 }
