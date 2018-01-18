@@ -5,11 +5,27 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import java.io.BufferedWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
+import java.io
+
+        .BufferedReader;
+import java.io
+
+        .BufferedWriter;
+import java.io
+
+        .InputStream;
+import java.io
+
+        .InputStreamReader;
+import java.io
+
+        .OutputStream;
+import java.io
+
+        .OutputStreamWriter;
+import java.net
+
+        .Socket;
 
 /**
  * Created by jack on 2018/1/18.
@@ -33,20 +49,27 @@ public class clientSocketService extends IntentService {
         try{
             m_addr = intent.getStringExtra(GROUP_OWNER_ADDR);
             Socket socket = new Socket(m_addr, 6000);
+            while(true) {
+                OutputStream outputStream = socket.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                bufferedWriter.write("123412341234");
+                bufferedWriter.flush();
 
-            OutputStream outputStream = socket.getOutputStream();
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
-            bufferedWriter.write("123412341234");
-            bufferedWriter.flush();
+                InputStream inputStream = socket.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String data = bufferedReader.readLine();
+                //服务器发送完成，关闭连接
+                if(data.equals("bigleg-end")){
+                    socket.close();
+                    break;
+                }
 
-            //InputStream inputStream = socket.getInputStream();
-
-            int data = 33333;
-            //接收到回复的地址之后，发送广播以更新地址信息
-            Intent ipIntent = new Intent(RECEIVEIP_ACTION);
-            ipIntent.putExtra(IP_DATA, data);
-            m_BroadcastManager = LocalBroadcastManager.getInstance(this);
-            m_BroadcastManager.sendBroadcast(ipIntent);
+                //接收到回复的地址之后，发送广播以更新地址信息
+                Intent ipIntent = new Intent(RECEIVEIP_ACTION);
+                ipIntent.putExtra(IP_DATA, data);
+                m_BroadcastManager = LocalBroadcastManager.getInstance(this);
+                m_BroadcastManager.sendBroadcast(ipIntent);
+            }
         }
         catch (Exception ex){
             ex.printStackTrace();

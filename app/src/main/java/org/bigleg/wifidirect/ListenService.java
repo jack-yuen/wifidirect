@@ -43,8 +43,8 @@ public class ListenService extends IntentService {
                     InputStream inputStream = socket.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                     String line = reader.readLine();
-                    String clientAddr = socket.getInetAddress().toString();
 
+                    String clientAddr = socket.getInetAddress().toString();
                     OutputStream outputStream = socket.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
                     bufferedWriter.write(clientAddr);
