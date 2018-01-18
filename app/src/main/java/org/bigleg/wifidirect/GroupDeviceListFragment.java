@@ -41,6 +41,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import android.net.wifi.p2p.WifiP2pManager.ConnectionInfoListener;
 
@@ -50,7 +51,7 @@ import android.net.wifi.p2p.WifiP2pManager.ConnectionInfoListener;
  */
 public class GroupDeviceListFragment extends ListFragment implements ConnectionInfoListener {
 
-    private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
+    private List<HashMap<String, String>> peers = new ArrayList<HashMap<String, String>>();
     View mContentView = null;
     private WifiP2pInfo info;
 
@@ -101,14 +102,7 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
             //new FileServerAsyncTask(getActivity(), mContentView.findViewById(R.id.status_text)).execute();
             //TODO 为了显示组内成员列表，这里需要让group Owner向其它所有组内成员发送组内成员列表信息
         } else if (wifiP2pInfo.groupFormed) {
-            // 这里运行普通组员的任务
-            // 一般是创建一个client向组长的server发送请求
-            //mContentView.findViewById(R.id.btn_start_client).setVisibility(View.VISIBLE);
-            //getActivity().findViewById(R.id.btn_openfile).setClickable(true);
-            //((TextView) mContentView.findViewById(R.id.status_text)).setText(getResources().getString(R.string.client_text));
-//            String groupAddr = wifiP2pInfo.groupOwnerAddress.getHostAddress();
-//            socketThread st = new socketThread(groupAddr, new ArrayList<WifiP2pDevice>());
-//            st.run();
+            // 这里运行普通组员的任务,创建一个client向组长的server发送请求
             String grpOwnerAddr = wifiP2pInfo.groupOwnerAddress.getHostAddress();
             Intent intent = new Intent(getActivity(), clientSocketService.class);
             intent.putExtra(clientSocketService.GROUP_OWNER_ADDR, grpOwnerAddr);
@@ -142,15 +136,14 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
     /**
      * Array adapter for ListFragment that maintains WifiP2pDevice list.
      */
-    private class WiFiPeerListAdapter extends ArrayAdapter<WifiP2pDevice> {
-        private List<WifiP2pDevice> items;
+    private class WiFiPeerListAdapter extends ArrayAdapter<HashMap<String, String>> {
+        private List<HashMap<String, String>> items;
         /**
          * @param context
          * @param textViewResourceId
          * @param objects
          */
-        public WiFiPeerListAdapter(Context context, int textViewResourceId,
-                List<WifiP2pDevice> objects) {
+        public WiFiPeerListAdapter(Context context, int textViewResourceId,List<HashMap<String, String>> objects) {
             super(context, textViewResourceId, objects);
             items = objects;
 
@@ -159,19 +152,18 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = convertView;
             if (v == null) {
-                LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(
-                        Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.row_devices, null);
             }
-            WifiP2pDevice device = items.get(position);
+            HashMap<String, String> device = items.get(position);
             if (device != null) {
                 TextView top = (TextView) v.findViewById(R.id.device_name);
                 TextView bottom = (TextView) v.findViewById(R.id.device_details);
                 if (top != null) {
-                    top.setText(device.deviceName);
+                    top.setText(device.get("deviceName"));
                 }
                 if (bottom != null) {
-                    bottom.setText(getDeviceStatus(device.status));
+                    bottom.setText(getDeviceStatus(Integer.valueOf(device.get("status"))));
                 }
             }
             return v;
@@ -183,7 +175,22 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
         ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
     }
 
-    public void updatePeers(List<WifiP2pDevice> peerList) {
+    public void updatePeersWithDeviceList(List<WifiP2pDevice> peerList) {
+        peers.clear();
+        List<HashMap<String, String>> mapList = new ArrayList<HashMap<String, String>>();
+        for(int i = 0; i < peerList.size(); i++){
+            HashMap<String, String> ithMap = new HashMap<>();
+            WifiP2pDevice dev = peerList.get(i);
+            ithMap.put("deviceAddress", dev.deviceAddress);
+            ithMap.put("deviceName", dev.deviceName);
+            ithMap.put("primaryDeviceType", dev.primaryDeviceType);
+            ithMap.put("status", dev.status + "");
+            mapList.add(ithMap);
+        }
+        peers.addAll(mapList);
+        ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
+    }
+    public void updatePeers(List<HashMap<String, String>> peerList) {
         peers.clear();
         peers.addAll(peerList);
         ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();

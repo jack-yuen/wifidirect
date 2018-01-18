@@ -200,21 +200,38 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
      * 更新界面中的组成员
      * @param deviceList
      */
-    public void updateGroupFragment(List<WifiP2pDevice> deviceList){
+    public void updateGroupFragmentWithDeviceList(List<WifiP2pDevice> deviceList){
         this.setGroupList(deviceList);
         GroupDeviceListFragment frg = (GroupDeviceListFragment) getFragmentManager().findFragmentById(R.id.grp_list);
-        frg.updatePeers(deviceList);
+        frg.updatePeersWithDeviceList(deviceList);
     }
 
+    public void updateGroupFragment(List<HashMap<String, String>> mapList){
+        GroupDeviceListFragment frg = (GroupDeviceListFragment) getFragmentManager().findFragmentById(R.id.grp_list);
+        frg.updatePeers(mapList);
+    }
+
+    public String m_clientAddr;
     private class IPReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-                //TODO 这里记录的应该是IP信息，需要进一步处理
-                int data = intent.getIntExtra(clientSocketService.IP_DATA, 0);
-                //Log.i("test", data);
-                //mTextView.setText(data);
-                System.out.println("================================================" + data);
+                ArrayList<HashMap<String, String>> mapList = new ArrayList<>();
+                //这里记录的是IP信息和群组内成员列表，需要进一步处理
+                String clientAddr = intent.getStringExtra(clientSocketService.IP_DATA);
+                ArrayList<String> devStrList = intent.getStringArrayListExtra(clientSocketService.GROUP_MEM_LIST);
+                m_clientAddr = clientAddr;
+                for(int i = 0; i < devStrList.size(); i++){
+                    String deviceStr = devStrList.get(i);
+                    String[] attrList = deviceStr.split(clientSocketService.DEVICE_SPLIT);
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("deviceName", attrList[0]);
+                    map.put("deviceAddress", attrList[1]);
+                    map.put("status", attrList[2]);
+                    map.put("primaryDeviceType", attrList[3]);
+                    mapList.add(map);
+                }
+                updateGroupFragment(mapList);
             }
             catch (Exception ex){
                 ex.printStackTrace();

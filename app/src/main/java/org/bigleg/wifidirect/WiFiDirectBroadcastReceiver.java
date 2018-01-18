@@ -86,7 +86,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                             Collection<WifiP2pDevice> groupCol = wifiP2pGroup.getClientList();
                             List<WifiP2pDevice> groupList = new ArrayList<>();
                             groupList.addAll(groupCol);
-                            mActivity.updateGroupFragment(groupList);
+                            mActivity.updateGroupFragmentWithDeviceList(groupList);
                             //TODO 如果是组长，需要将此信息传递给组内的所有成员（socket)，如果是组员，只会和组长连接，因此不需考虑
                             //开辟intentService的任务放在connectionChanged任务中
                             for(int i = 0; i < groupList.size(); i++){
