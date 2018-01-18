@@ -106,9 +106,13 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
             //mContentView.findViewById(R.id.btn_start_client).setVisibility(View.VISIBLE);
             //getActivity().findViewById(R.id.btn_openfile).setClickable(true);
             //((TextView) mContentView.findViewById(R.id.status_text)).setText(getResources().getString(R.string.client_text));
-            String groupAddr = wifiP2pInfo.groupOwnerAddress.getHostAddress();
-            socketThread st = new socketThread(groupAddr, new ArrayList<WifiP2pDevice>());
-            st.run();
+//            String groupAddr = wifiP2pInfo.groupOwnerAddress.getHostAddress();
+//            socketThread st = new socketThread(groupAddr, new ArrayList<WifiP2pDevice>());
+//            st.run();
+            String grpOwnerAddr = wifiP2pInfo.groupOwnerAddress.getHostAddress();
+            Intent intent = new Intent(getActivity(), clientSocketService.class);
+            intent.putExtra(clientSocketService.GROUP_OWNER_ADDR, grpOwnerAddr);
+            getActivity().startService(intent);
         }
     }
 

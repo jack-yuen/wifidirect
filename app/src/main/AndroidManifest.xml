@@ -28,6 +28,8 @@
             </intent-filter>
         </activity>
         <service android:name="org.bigleg.wifidirect.GroupClientListenService" />
+        <service android:name=".ListenService" />
+        <service android:name=".clientSocketService" />
     </application>
 
 </manifest>

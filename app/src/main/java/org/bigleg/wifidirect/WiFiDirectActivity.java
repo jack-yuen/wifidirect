@@ -15,6 +15,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     private final IntentFilter mIntentFilter = new IntentFilter();
     private WifiP2pManager.Channel mChannel;
     private BroadcastReceiver mReceiver = null;
+
+    private IPReceiver mIpReceiver = null;
 
     static private int openfileDialogId = 0;
 
@@ -81,15 +84,28 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
             }
         });
         mChannel = mManager.initialize(this, getMainLooper(), null);
-        Intent startListenGrpIntent = new Intent(this, GroupClientListenService.class);
-        startService(startListenGrpIntent);
+
+        mIpReceiver = new IPReceiver();
+
+//        Intent startListenGrpIntent = new Intent(this, GroupClientListenService.class);
+//        startService(startListenGrpIntent);
+        //启动每个端的serverSocket
+        Intent intent = new Intent(this, ListenService.class);
+        startService(intent);
+        registerIpListen();
+    }
+
+    private void registerIpListen(){
+        IntentFilter intentFilter = new IntentFilter(clientSocketService.RECEIVEIP_ACTION);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mIpReceiver, intentFilter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
-        registerReceiver(mReceiver, mIntentFilter);
+        registerReceiver(mIpReceiver, mIntentFilter);
     }
     /* unregister the broadcast receiver */
     @Override
@@ -189,5 +205,15 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
         this.setGroupList(deviceList);
         GroupDeviceListFragment frg = (GroupDeviceListFragment) getFragmentManager().findFragmentById(R.id.grp_list);
         frg.updatePeers(deviceList);
+    }
+
+    private class IPReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //TODO 这里记录的应该是IP信息，需要进一步处理
+            String data = intent.getStringExtra(clientSocketService.RECEIVEIP_ACTION);
+            //Log.i("test", data);
+            //mTextView.setText(data);
+        }
     }
 }

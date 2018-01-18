@@ -31,7 +31,7 @@ public class socketThread extends Thread {
     @Override
     public void run(){
         try {
-            Socket s = new Socket(m_addr, 6000);
+            //Socket s = new Socket(m_addr, 6000);
 //            AsyncDatagramSocket socket = new AsyncDatagramSocket();
 //            byte[] buffer = new byte[4];
 //            buffer[0] = 'x';
