@@ -86,6 +86,8 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                             Collection<WifiP2pDevice> groupCol = wifiP2pGroup.getClientList();
                             List<WifiP2pDevice> groupList = new ArrayList<>();
                             groupList.addAll(groupCol);
+                            //将组长加入组内
+                            groupList.add(wifiP2pGroup.getOwner());
                             mActivity.updateGroupFragmentWithDeviceList(groupList);
                             //TODO 如果是组长，需要将此信息传递给组内的所有成员（socket)，如果是组员，只会和组长连接，因此不需考虑
                             //开辟intentService的任务放在connectionChanged任务中
@@ -121,6 +123,8 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             //intent action indicating that this device details have changed.
             DeviceListFragment fragment = (DeviceListFragment) mActivity.getFragmentManager().findFragmentById(R.id.frag_list);
             fragment.updateThisDevice((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE));
+            WiFiDirectActivity.HostName = ((WifiP2pDevice) ((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE))).deviceName;
+            WiFiDirectActivity.HostIsGroupOwner = String.valueOf(((WifiP2pDevice) ((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE))).isGroupOwner());
         }
     }
 }

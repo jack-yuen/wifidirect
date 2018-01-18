@@ -37,18 +37,11 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
 
     static private int openfileDialogId = 0;
 
-    private static WifiP2pInfo m_wifiP2pInfo;
-    public static void setWifiP2pInfo(WifiP2pInfo wifiP2pInfo) {
-        m_wifiP2pInfo = wifiP2pInfo;
-    }
-
-    public static WifiP2pInfo getWifiP2pInfo() {
-        return m_wifiP2pInfo;
-    }
-
     public void setIsWifiP2pEnabled(boolean isWifiP2pEnabled) {
         this.isWifiP2pEnabled = isWifiP2pEnabled;
     }
+    public static String HostName;
+    public static String HostIsGroupOwner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
