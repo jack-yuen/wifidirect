@@ -226,6 +226,7 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
                     map.put("deviceAddress", attrList[1]);
                     map.put("status", attrList[2]);
                     map.put("primaryDeviceType", attrList[3]);
+                    map.put("isGroupOwner", attrList[3]);
                     mapList.add(map);
                 }
                 updateGroupFragment(mapList);

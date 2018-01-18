@@ -67,22 +67,11 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
         return mContentView;
     }
 
-    private static String getDeviceStatus(int deviceStatus) {
-        Log.d(WiFiDirectActivity.TAG, "Peer status :" + deviceStatus);
-        switch (deviceStatus) {
-            case WifiP2pDevice.AVAILABLE:
-                return "Available";
-            case WifiP2pDevice.INVITED:
-                return "Invited";
-            case WifiP2pDevice.CONNECTED:
-                return "Connected";
-            case WifiP2pDevice.FAILED:
-                return "Failed";
-            case WifiP2pDevice.UNAVAILABLE:
-                return "Unavailable";
-            default:
-                return "Unknown";
+    private static String getDeviceStatus(boolean isGroupOwner) {
+        if(isGroupOwner){
+            return "Group Owner";
         }
+        return "Member";
     }
 
     /**
@@ -162,7 +151,7 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
                     top.setText(device.get("deviceName"));
                 }
                 if (bottom != null) {
-                    bottom.setText(getDeviceStatus(Integer.valueOf(device.get("status"))));
+                    bottom.setText(getDeviceStatus(Boolean.valueOf(device.get("isGroupOwner"))));
                 }
             }
             return v;
@@ -184,6 +173,7 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
             ithMap.put("deviceName", dev.deviceName);
             ithMap.put("primaryDeviceType", dev.primaryDeviceType);
             ithMap.put("status", dev.status + "");
+            ithMap.put("isGroupOwner", String.valueOf(dev.isGroupOwner()));
             mapList.add(ithMap);
         }
         peers.addAll(mapList);
