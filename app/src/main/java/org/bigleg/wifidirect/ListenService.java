@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.Nullable;
 
@@ -72,7 +73,14 @@ public class ListenService extends IntentService {
                             bufferedWriter.write(String.valueOf(device.isGroupOwner()));
                             bufferedWriter.write("\n");
                         }
-                        //TODO 把自己的地址和IP也写进来，标志换成是否是组长
+                        //把自己的地址和IP也写进来，标志换成是否是组长
+                        WifiP2pInfo ownerInfo = WiFiDirectActivity.getWifiP2pInfo();
+                        bufferedWriter.write(clientSocketService.DEVICE_HEAD);
+                        bufferedWriter.write(ownerInfo.groupOwnerAddress.getHostName());
+                        bufferedWriter.write(clientSocketService.DEVICE_SPLIT);
+                        bufferedWriter.write("true");
+                        bufferedWriter.write("\n");
+
                         //socket结束标志位
                         bufferedWriter.write(clientSocketService.IP_END);
                         bufferedWriter.write("\n");

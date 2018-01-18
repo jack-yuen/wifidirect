@@ -90,6 +90,7 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
             // 一般是创建一个服务线程来监听client的请求
             //new FileServerAsyncTask(getActivity(), mContentView.findViewById(R.id.status_text)).execute();
             //TODO 为了显示组内成员列表，这里需要让group Owner向其它所有组内成员发送组内成员列表信息
+            WiFiDirectActivity.setWifiP2pInfo(wifiP2pInfo);
         } else if (wifiP2pInfo.groupFormed) {
             // 这里运行普通组员的任务,创建一个client向组长的server发送请求
             String grpOwnerAddr = wifiP2pInfo.groupOwnerAddress.getHostAddress();
@@ -169,10 +170,7 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
         for(int i = 0; i < peerList.size(); i++){
             HashMap<String, String> ithMap = new HashMap<>();
             WifiP2pDevice dev = peerList.get(i);
-            ithMap.put("deviceAddress", dev.deviceAddress);
             ithMap.put("deviceName", dev.deviceName);
-            ithMap.put("primaryDeviceType", dev.primaryDeviceType);
-            ithMap.put("status", dev.status + "");
             ithMap.put("isGroupOwner", String.valueOf(dev.isGroupOwner()));
             mapList.add(ithMap);
         }

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.app.Activity;
@@ -35,6 +36,15 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     private IPReceiver mIpReceiver = null;
 
     static private int openfileDialogId = 0;
+
+    private static WifiP2pInfo m_wifiP2pInfo;
+    public static void setWifiP2pInfo(WifiP2pInfo wifiP2pInfo) {
+        m_wifiP2pInfo = wifiP2pInfo;
+    }
+
+    public static WifiP2pInfo getWifiP2pInfo() {
+        return m_wifiP2pInfo;
+    }
 
     public void setIsWifiP2pEnabled(boolean isWifiP2pEnabled) {
         this.isWifiP2pEnabled = isWifiP2pEnabled;
@@ -223,10 +233,7 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
                     String[] attrList = deviceStr.split(clientSocketService.DEVICE_SPLIT);
                     HashMap<String, String> map = new HashMap<>();
                     map.put("deviceName", attrList[0]);
-                    map.put("deviceAddress", attrList[1]);
-                    map.put("status", attrList[2]);
-                    map.put("primaryDeviceType", attrList[3]);
-                    map.put("isGroupOwner", attrList[3]);
+                    map.put("isGroupOwner", attrList[1]);
                     mapList.add(map);
                 }
                 updateGroupFragment(mapList);
