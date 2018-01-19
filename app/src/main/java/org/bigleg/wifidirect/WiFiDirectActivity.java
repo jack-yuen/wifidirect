@@ -45,7 +45,7 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     public static String HostName = "";
     public static String HostIsGroupOwner = "false";
 
-    public static List<String> GroupMemIpAddr;
+    public static ArrayList<String> GroupMemIpAddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

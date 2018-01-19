@@ -90,13 +90,14 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
             // 一般是创建一个服务线程来监听client的请求
             //new FileServerAsyncTask(getActivity(), mContentView.findViewById(R.id.status_text)).execute();
             WiFiDirectActivity.HostIsGroupOwner = "true";
+
         } else if (wifiP2pInfo.groupFormed) {
             // 这里运行普通组员的任务,创建一个client向组长的server发送请求
             String grpOwnerAddr = wifiP2pInfo.groupOwnerAddress.getHostAddress();
+            WiFiDirectActivity.HostIsGroupOwner = "false";
             Intent intent = new Intent(getActivity(), clientSocketService.class);
             intent.putExtra(clientSocketService.GROUP_OWNER_ADDR, grpOwnerAddr);
             getActivity().startService(intent);
-            WiFiDirectActivity.HostIsGroupOwner = "false";
         }
         else{
             ((WiFiDirectActivity)getActivity()).updateGroupFragment(new ArrayList<HashMap<String, String>>());
