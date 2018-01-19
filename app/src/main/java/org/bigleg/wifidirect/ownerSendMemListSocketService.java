@@ -80,6 +80,7 @@ public class ownerSendMemListSocketService extends IntentService {
                 bufferedWriter.write("\n");
 
                 bufferedWriter.write(clientSocketService.SEND_MEM_END);
+                bufferedWriter.write("\n");
                 bufferedWriter.flush();
 
                 InputStream inputStream = socket.getInputStream();
@@ -93,7 +94,7 @@ public class ownerSendMemListSocketService extends IntentService {
                     }
                 }
                 //TODO ??
-                this.destroy();
+                //this.destroy();
             } catch (IOException e) {
                 e.printStackTrace();
             }
