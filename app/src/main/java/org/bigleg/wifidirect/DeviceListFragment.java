@@ -159,6 +159,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         view = (TextView) mContentView.findViewById(R.id.my_status);
         view.setText(getDeviceStatus(device.status));
         WiFiDirectActivity.ThisDevice = device;
+        WiFiDirectActivity.HostName = device.deviceName;
     }
 
     /***

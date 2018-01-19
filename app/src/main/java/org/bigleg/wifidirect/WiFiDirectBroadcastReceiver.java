@@ -107,7 +107,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             DeviceListFragment fragment = (DeviceListFragment) mActivity.getFragmentManager().findFragmentById(R.id.frag_list);
             fragment.updateThisDevice((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE));
             WiFiDirectActivity.HostName = ((WifiP2pDevice) ((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE))).deviceName;
-            WiFiDirectActivity.HostIsGroupOwner = String.valueOf(((WifiP2pDevice) ((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE))).isGroupOwner());
+            //WiFiDirectActivity.HostIsGroupOwner = String.valueOf(((WifiP2pDevice) ((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE))).isGroupOwner());
         }
     }
 }
