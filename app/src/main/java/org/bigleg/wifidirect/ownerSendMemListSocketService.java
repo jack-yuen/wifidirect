@@ -62,6 +62,7 @@ public class ownerSendMemListSocketService extends IntentService {
                 OutputStream outputStream = socket.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
                 bufferedWriter.write(clientSocketService.SEND_MEM_HEAD);
+                bufferedWriter.write("\n");
                 for (int i = 0; i < m_devList.size(); i++){
                     WifiP2pDevice device = m_devList.get(i);
                     bufferedWriter.write(clientSocketService.DEVICE_HEAD);
