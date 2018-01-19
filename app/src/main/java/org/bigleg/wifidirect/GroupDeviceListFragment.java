@@ -98,6 +98,9 @@ public class GroupDeviceListFragment extends ListFragment implements ConnectionI
             getActivity().startService(intent);
             WiFiDirectActivity.HostIsGroupOwner = "false";
         }
+        else{
+            ((WiFiDirectActivity)getActivity()).updateGroupFragment(new ArrayList<HashMap<String, String>>());
+        }
     }
 
     /**

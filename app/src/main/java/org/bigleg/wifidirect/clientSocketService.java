@@ -71,6 +71,7 @@ public class clientSocketService extends IntentService {
                 }
                 //服务器发送完成，关闭连接
                 if(line.equals(IP_END)){
+                    //关闭之前告诉监听器也关闭?
                     socket.close();
                     break;
                 }
@@ -81,6 +82,8 @@ public class clientSocketService extends IntentService {
             ipIntent.putStringArrayListExtra(GROUP_MEM_LIST, deviceList);
             m_BroadcastManager = LocalBroadcastManager.getInstance(this);
             m_BroadcastManager.sendBroadcast(ipIntent);
+            //TODO 发送完成后关闭？
+            this.stopSelf();
         }
         catch (Exception ex){
             ex.printStackTrace();

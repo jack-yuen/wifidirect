@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -48,6 +49,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             } else {
                 mActivity.setIsWifiP2pEnabled(false);
                 mActivity.resetData();
+                mActivity.updateGroupFragment(new ArrayList<HashMap<String, String>>());
             }
             Log.d(WiFiDirectActivity.TAG, "P2P state changed - " + state);
         } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
@@ -95,6 +97,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                 });
             } else {
                 mActivity.resetData();
+                mActivity.updateGroupFragment(new ArrayList<HashMap<String, String>>());
             }
 //            try {
 //                WifiP2pInfo p2pInfo = (WifiP2pInfo) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
