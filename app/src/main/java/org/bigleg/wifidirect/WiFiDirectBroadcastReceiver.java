@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pInfo;
@@ -116,6 +118,9 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             DeviceListFragment fragment = (DeviceListFragment) mActivity.getFragmentManager().findFragmentById(R.id.frag_list);
             fragment.updateThisDevice((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE));
             WiFiDirectActivity.HostName = ((WifiP2pDevice) ((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE))).deviceName;
+            if(((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE)).status != WifiP2pDevice.CONNECTED){
+                mActivity.updateGroupFragment(new ArrayList<HashMap<String, String>>());
+            }
             //WiFiDirectActivity.HostIsGroupOwner = String.valueOf(((WifiP2pDevice) ((WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE))).isGroupOwner());
         }
     }
