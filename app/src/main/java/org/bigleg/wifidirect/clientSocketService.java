@@ -89,8 +89,7 @@ public class clientSocketService extends IntentService {
             ipIntent.putStringArrayListExtra(GROUP_MEM_LIST, deviceList);
             m_BroadcastManager = LocalBroadcastManager.getInstance(this);
             m_BroadcastManager.sendBroadcast(ipIntent);
-            //TODO 发送完成后关闭？
-            this.stopSelf();
+            //this.stopSelf();
         }
         catch (Exception ex){
             ex.printStackTrace();

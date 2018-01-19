@@ -93,7 +93,6 @@ public class ownerSendMemListSocketService extends IntentService {
                         break;
                     }
                 }
-                //TODO ??
                 //this.destroy();
             } catch (IOException e) {
                 e.printStackTrace();

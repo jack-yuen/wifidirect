@@ -93,7 +93,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                             groupList.add(WiFiDirectActivity.ThisDevice);
 
                             mActivity.updateGroupFragmentWithDeviceList(groupList);
-                            //TODO 向各个client推送组内成员列表的消息
+                            //向各个client推送组内成员列表的消息
                             Intent intent = new Intent(mActivity, ownerSendMemListSocketService.class);
                             intent.putStringArrayListExtra(clientSocketService.GROUP_MEM_LIST, WiFiDirectActivity.GroupMemIpAddr);
                             mActivity.startService(intent);
