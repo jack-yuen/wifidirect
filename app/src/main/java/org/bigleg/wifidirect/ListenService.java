@@ -7,6 +7,7 @@ import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.System.in;
@@ -27,6 +29,7 @@ import static java.lang.System.in;
  */
 
 public class ListenService extends IntentService {
+    private LocalBroadcastManager m_BroadcastManager;
 
     public ListenService(String name) {
         super(name);
@@ -51,6 +54,21 @@ public class ListenService extends IntentService {
                     String line = reader.readLine();
                     if(line.equals(clientSocketService.GET_IP_HEAD)){
                         String clientAddr = socket.getInetAddress().toString();
+                        clientAddr = clientAddr.replace("/", "");
+                        //将该IP加入群组IP列表
+                        boolean exists = false;
+                        List<String> groupIpList = WiFiDirectActivity.GroupMemIpAddr;
+                        for(int i = 0; i < groupIpList.size(); i++){
+                            String curIp = groupIpList.get(i);
+                            if(curIp.equals(clientAddr)){
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if(!exists){
+                            WiFiDirectActivity.GroupMemIpAddr.add(clientAddr);
+                        }
+
                         OutputStream outputStream = socket.getOutputStream();
                         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
 
@@ -81,6 +99,35 @@ public class ListenService extends IntentService {
                         bufferedWriter.write(clientSocketService.IP_END);
                         bufferedWriter.write("\n");
                         bufferedWriter.flush();
+                    }
+                    else if(line.equals(clientSocketService.SEND_MEM_HEAD)){
+                        ArrayList<String> mapList = new ArrayList<>();
+                        while(true){
+                            //一直读取直到结束break;
+                            line = reader.readLine();
+                            if(line.startsWith(clientSocketService.DEVICE_HEAD)){
+                                line = line.replace(clientSocketService.DEVICE_HEAD, "");
+                                mapList.add(line);
+                                continue;
+                            }
+                            else if(line.equals(clientSocketService.SEND_MEM_END)){
+                                break;
+                            }
+                        }
+
+                        OutputStream outputStream = socket.getOutputStream();
+                        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                        //socket结束标志位
+                        bufferedWriter.write(clientSocketService.RECEIVE_MEM_END);
+                        bufferedWriter.write("\n");
+                        bufferedWriter.flush();
+                        //通知界面更新组内成员列表
+
+                        //接收到回复的地址之后，发送广播以更新地址信息
+                        Intent ipIntent = new Intent(clientSocketService.RECEIVE_GROUPLIST_ACTION);
+                        ipIntent.putStringArrayListExtra(clientSocketService.GROUP_MEM_LIST, mapList);
+                        m_BroadcastManager = LocalBroadcastManager.getInstance(this);
+                        m_BroadcastManager.sendBroadcast(ipIntent);
                     }
                 }
             }

@@ -45,6 +45,8 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     public static String HostName = "";
     public static String HostIsGroupOwner = "false";
 
+    public static List<String> GroupMemIpAddr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +102,9 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     }
 
     private void registerIpListenReceiver(){
+        //接收到IP信息，或者组成员信息时，都会触发
         IntentFilter intentFilter = new IntentFilter(clientSocketService.RECEIVEIP_ACTION);
+        intentFilter.addAction(clientSocketService.RECEIVE_GROUPLIST_ACTION);
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         LocalBroadcastManager.getInstance(this).registerReceiver(mIpReceiver, intentFilter);
     }
@@ -233,9 +237,11 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
             try {
                 ArrayList<HashMap<String, String>> mapList = new ArrayList<>();
                 //这里记录的是IP信息和群组内成员列表，需要进一步处理
-                String clientAddr = intent.getStringExtra(clientSocketService.IP_DATA);
+                if(clientSocketService.RECEIVEIP_ACTION.equals(intent.getAction())) {
+                    String clientAddr = intent.getStringExtra(clientSocketService.IP_DATA);
+                    m_clientAddr = clientAddr;
+                }
                 ArrayList<String> devStrList = intent.getStringArrayListExtra(clientSocketService.GROUP_MEM_LIST);
-                m_clientAddr = clientAddr;
                 for(int i = 0; i < devStrList.size(); i++){
                     String deviceStr = devStrList.get(i);
                     String[] attrList = deviceStr.split(clientSocketService.DEVICE_SPLIT);

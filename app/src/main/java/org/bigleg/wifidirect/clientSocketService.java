@@ -31,6 +31,13 @@ public class clientSocketService extends IntentService {
     public static final String IP_HEAD = "org.bigleg.wifidirect.ip_head";
     public static final String DEVICE_HEAD = "org.bigleg.wifidirect.device_head";
     public static final String DEVICE_SPLIT = "=device_split=";
+
+    public static final String SEND_MEM_HEAD ="org.bigleg.wifidirect.send_mem_head";
+    public static final String SEND_MEM_END ="org.bigleg.wifidirect.send_mem_head";
+    public static final String RECEIVE_MEM_END ="org.bigleg.wifidirect.receive_mem_head";//客户端接收成员列表结束，服务器需要关闭
+
+    public static final String RECEIVE_GROUPLIST_ACTION = "org.bigleg.wifidirect.RECEIVE_GRP_LIST";
+
     private LocalBroadcastManager m_BroadcastManager;
     private String m_addr;
     public clientSocketService(String name) {

@@ -30,6 +30,7 @@
 
         <service android:name=".ListenService" />
         <service android:name=".clientSocketService" />
+        <service android:name=".ownerSendMemListSocketService" />
     </application>
 
 </manifest>
