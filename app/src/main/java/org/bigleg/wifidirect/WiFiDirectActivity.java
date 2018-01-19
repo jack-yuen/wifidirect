@@ -42,8 +42,8 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     public void setIsWifiP2pEnabled(boolean isWifiP2pEnabled) {
         this.isWifiP2pEnabled = isWifiP2pEnabled;
     }
-    public static String HostName;
-    public static String HostIsGroupOwner;
+    public static String HostName = "";
+    public static String HostIsGroupOwner = "false";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,10 +202,19 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
      * @param deviceList
      */
     public void updateGroupFragmentWithDeviceList(List<WifiP2pDevice> deviceList){
-        groupMemList.clear();
-        groupMemList.addAll(deviceList);
+        List<HashMap<String, String>> mapList = new ArrayList<HashMap<String, String>>();
+        for(int i = 0; i < deviceList.size(); i++){
+            HashMap<String, String> ithMap = new HashMap<>();
+            WifiP2pDevice dev = deviceList.get(i);
+            ithMap.put("deviceName", dev.deviceName);
+            ithMap.put("isGroupOwner", String.valueOf(dev.isGroupOwner()));
+            if(dev.deviceName.equals(HostName) && i == deviceList.size() - 1){//最后一个，并且当前设备是组中最后一个(BroadcastReceiver中)
+                ithMap.put("isGroupOwner", HostIsGroupOwner);
+            }
+            mapList.add(ithMap);
+        }
         GroupDeviceListFragment frg = (GroupDeviceListFragment) getFragmentManager().findFragmentById(R.id.grp_list);
-        frg.updatePeersWithDeviceList(deviceList);
+        frg.updatePeers(mapList);
     }
 
     public void updateGroupFragment(List<HashMap<String, String>> mapList){

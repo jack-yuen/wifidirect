@@ -67,8 +67,7 @@ public class ListenService extends IntentService {
                             bufferedWriter.write(String.valueOf(device.isGroupOwner()));
                             bufferedWriter.write("\n");
                         }
-                        if(WiFiDirectActivity.ThisDevice.isGroupOwner()) {
-                            //把自己的地址和IP也写进来，标志换成是否是组长
+                        if("true".equals(WiFiDirectActivity.HostIsGroupOwner)) {                            //把自己的地址和IP也写进来，标志换成是否是组长
                             bufferedWriter.write(clientSocketService.DEVICE_HEAD);
                             bufferedWriter.write(WiFiDirectActivity.ThisDevice.deviceName);
                             bufferedWriter.write(clientSocketService.DEVICE_SPLIT);

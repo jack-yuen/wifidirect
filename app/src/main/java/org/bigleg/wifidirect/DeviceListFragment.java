@@ -161,8 +161,12 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         WiFiDirectActivity.ThisDevice = device;
     }
 
+    /***
+     * 扫描到设备时会触发
+     * @param peerList
+     */
     @Override
-    public void onPeersAvailable(WifiP2pDeviceList peerList) {//TODO 有设备连接成功时，可能会触发这里
+    public void onPeersAvailable(WifiP2pDeviceList peerList) {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
@@ -178,19 +182,8 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
                     conn = true;
                 }
             }
-//            //已连接的放在grpList中，未连接的放在当前list中
-//            if (dev.status == WifiP2pDevice.CONNECTED) {
-//                //TODO 加入组列表
-//                connectedPeers.add(dev);
-//            }
-//            else{
-            //暂时把扫描到的设备全加到列表里
-            //if(!conn)
-                peers.add(dev);
-//            }
+            peers.add(dev);
         }
-        //((WiFiDirectActivity)getActivity()).updateGroupMembers(connectedPeers);
-        //peers.addAll(peerList.getDeviceList());
         ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
         if (peers.size() == 0) {
             Log.d(WiFiDirectActivity.TAG, "No devices found");
