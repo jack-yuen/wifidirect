@@ -41,25 +41,7 @@ public class ownerSendMemListSocketService extends IntentService {
                 Thread curThread = new SendGrpmemThread(curIp, devList);
                 curThread.run();
             }
-            this.stopSelf();
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onStart(Intent intent, int startId){
-        try{
-            //owner的groupChanged里要写入下面这个信息
-            List<String> ipList = intent.getStringArrayListExtra(clientSocketService.GROUP_MEM_LIST);
-            List<WifiP2pDevice> devList = WiFiDirectActivity.getGroupDeviceList();//这些是要写入的
-            for(int i = 0; i < ipList.size(); i++){
-                String curIp = ipList.get(i);
-                Thread curThread = new SendGrpmemThread(curIp, devList);
-                curThread.run();
-            }
-            this.stopSelf();
+            //this.stopSelf();
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -109,6 +91,8 @@ public class ownerSendMemListSocketService extends IntentService {
                         break;
                     }
                 }
+                //TODO ??
+                this.destroy();
             } catch (IOException e) {
                 e.printStackTrace();
             }

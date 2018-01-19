@@ -44,10 +44,16 @@ public class ListenService extends IntentService {
      */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(6000);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
         while(true){
-            try {
-                ServerSocket serverSocket = new ServerSocket(6000);
-                while (true){
+            try{
+                if(null != serverSocket){
                     Socket socket = serverSocket.accept();
                     InputStream inputStream = socket.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
