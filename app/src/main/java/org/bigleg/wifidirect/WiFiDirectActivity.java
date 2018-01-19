@@ -196,6 +196,10 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     public static List<WifiP2pDevice> getGroupDeviceList(){
         return groupMemList;
     }
+    public static void setGroupDeviceList(List<WifiP2pDevice> deviceList){
+        groupMemList.clear();
+        groupMemList.addAll(deviceList);
+    }
 
     /**
      * 更新界面中的组成员

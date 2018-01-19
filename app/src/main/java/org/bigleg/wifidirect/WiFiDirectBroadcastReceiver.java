@@ -86,6 +86,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                             Collection<WifiP2pDevice> groupCol = wifiP2pGroup.getClientList();
                             List<WifiP2pDevice> groupList = new ArrayList<>();
                             groupList.addAll(groupCol);
+                            WiFiDirectActivity.setGroupDeviceList(groupList);
                             //将组长加入组内
                             groupList.add(WiFiDirectActivity.ThisDevice);
                             mActivity.updateGroupFragmentWithDeviceList(groupList);
