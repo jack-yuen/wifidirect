@@ -51,7 +51,7 @@ public class WiFiDirectActivity extends Activity implements WifiP2pManager.Chann
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        GroupMemIpAddr = new ArrayList<>();
         //单击按钮时打开文件对话框
         findViewById(R.id.btn_openfile).setOnClickListener(new OnClickListener() {
             @Override
