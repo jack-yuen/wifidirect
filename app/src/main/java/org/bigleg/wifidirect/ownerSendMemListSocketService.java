@@ -41,7 +41,7 @@ public class ownerSendMemListSocketService extends IntentService {
                 Thread curThread = new SendGrpmemThread(curIp, devList);
                 curThread.run();
             }
-            //this.stopSelf();
+            this.stopSelf();
         }
         catch (Exception ex){
             ex.printStackTrace();
